@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { myMiddleware } from './middlewares/myMiddleware';
 import { routes } from './routes';
 
@@ -11,6 +11,11 @@ app.use(myMiddleware);
 
 //Routes
 app.use(routes);
+
+//Tratamento de exceções
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+  res.status(500).json({ message: error.message });
+});
 
 app.listen(PORT, () => {
   console.log('Servidor iniciando...');
