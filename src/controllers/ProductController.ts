@@ -12,8 +12,16 @@ class ProductController {
     //Dessa forma passamos o middleware de forma local e o "next" fica responsável por "passar" a requisição para a próxima função.
     const { name, price, user_id } = req.body;
 
-    if (!name || !price) {
-      throw new AppError('Nome do produto e preço são obrigatórios');
+    if (!name) {
+      throw new AppError('Nome do produto é obrigatórios');
+    }
+
+    if (!price) {
+      throw new AppError('Preço do produto é obrigatórios');
+    }
+
+    if (price < 0) {
+      throw new AppError('Preço do produto deve ser maior que zero.');
     }
 
     // throw new Error('Erro ao tentar criar um Produto'); //Simulação de Erro para aprendizado de tratamento de exceções
