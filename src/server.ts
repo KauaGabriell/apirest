@@ -19,10 +19,11 @@ app.get('/products', (req, res) => {
   res.send(`Página ${page} de ${limit}`);
 });
 
-app.post('/products', myMiddleware, (req, res) => { //Dessa forma passamos o middleware de forma local e o "next" fica responsável por "passar" a requisição para a próxima função.
-  const { name, price } = req.body;
+app.post('/products', myMiddleware, (req, res) => {
+  //Dessa forma passamos o middleware de forma local e o "next" fica responsável por "passar" a requisição para a próxima função.
+  const { name, price, user_id } = req.body;
 
-  res.status(200).json({ name, price });
+  res.status(200).json({ name, price, user_id: req.user_id });
 });
 
 app.listen(PORT, () => {
