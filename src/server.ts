@@ -1,8 +1,12 @@
 import express from 'express';
+import { myMiddleware } from './middlewares/myMiddleware';
 
 const app = express();
 app.use(express.json());
 const PORT = 1111;
+
+//Dessa forma aplicamos o middleware de forma global.
+app.use(myMiddleware);
 
 app.get('/products/:id', (req, res) => {
   const { id } = req.params; //Route Params
