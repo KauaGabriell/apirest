@@ -1,6 +1,7 @@
 import express from 'express';
 
 const app = express();
+app.use(express.json());
 const PORT = 1111;
 
 app.get('/products/:id', (req, res) => {
@@ -12,6 +13,12 @@ app.get('/products', (req, res) => {
   const { page, limit } = req.query; //Query Params
 
   res.send(`Página ${page} de ${limit}`);
+});
+
+app.post('/products', (req, res) => {
+  const { name, price } = req.body;
+
+  res.send(`O produto ${name} custou R$${price}`);
 });
 
 app.listen(PORT, () => {
