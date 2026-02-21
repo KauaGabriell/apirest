@@ -13,7 +13,7 @@ class ProductController {
     //Schema Zod
     const bodySchema = z.object({
       name: z.string(),
-      price: z.number(),
+      price: z.number().nullish(), //Pode receber nulo ou undefined
     });
 
     const { name, price } = bodySchema.parse(req.body);
