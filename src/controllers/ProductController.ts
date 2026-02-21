@@ -14,8 +14,11 @@ class ProductController {
     const bodySchema = z.object({
       name: z
         .string({ error: 'Name is Required' })
+        .trim()
         .min(5, { error: 'Min lenght is five' }),
-      price: z.number({ error: 'Price is required' }),
+      price: z
+        .number({ error: 'Price is required' })
+        .positive({ error: 'Number must be positive' }),
     });
 
     const { name, price } = bodySchema.parse(req.body);
