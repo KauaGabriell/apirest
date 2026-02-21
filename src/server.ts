@@ -18,7 +18,7 @@ app.get('/products', (req, res) => {
 app.post('/products', (req, res) => {
   const { name, price } = req.body;
 
-  res.send(`O produto ${name} custou R$${price}`);
+  res.status(200).json({ name, price });
 });
 
 app.listen(PORT, () => {
