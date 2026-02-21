@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import { myMiddleware } from './middlewares/myMiddleware';
 import { routes } from './routes';
 import { AppError } from './utils/AppError';
+import { z, ZodError } from 'zod';
 
 const app = express();
 app.use(express.json());
@@ -19,6 +20,12 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
     return res.status(error.statuscode).json({ message: error.message });
   }
 
+  if (error instanceof ZodError) {
+    return res.status(400).json({
+      message: 'Erro de validação',
+      errors: z.flattenError(error).fieldErrors,
+    });
+  }
   res.status(500).json({ message: error.message });
 });
 
