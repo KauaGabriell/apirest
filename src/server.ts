@@ -1,6 +1,13 @@
-function sum(a: number, b: number) {
-  return a + b;
-}
+import express from 'express';
 
-const result = sum(5, 5);
-console.log(result);
+const app = express();
+const PORT = 1111;
+
+app.get('/', (req, res) => {
+  res.end('Hello Word');
+});
+
+app.listen(PORT, () => {
+  console.log('Servidor iniciando...');
+  console.log(`Servidor rodando em: http://localhost:${PORT}`);
+});
