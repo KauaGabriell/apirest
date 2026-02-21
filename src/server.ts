@@ -3,8 +3,9 @@ import express from 'express';
 const app = express();
 const PORT = 1111;
 
-app.get('/', (req, res) => {
-  res.end('Hello Word');
+app.get('/products/:id', (req, res) => {
+  const { id } = req.params;
+  res.send(`Produto ${id}`);
 });
 
 app.listen(PORT, () => {
