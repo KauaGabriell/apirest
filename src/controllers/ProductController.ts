@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { AppError } from '../utils/AppError';
+import { z } from 'zod';
 
 class ProductController {
   index(req: Request, res: Response) {
@@ -9,26 +10,30 @@ class ProductController {
   }
 
   create(req: Request, res: Response) {
-    //Dessa forma passamos o middleware de forma local e o "next" fica responsável por "passar" a requisição para a próxima função.
-    const { name, price, user_id } = req.body;
+    //Schema Zod
+    const bodySchema = z.object({
+      name: z.string(),
+      price: z.number(),
+    });
 
-    if (!name) {
-      throw new AppError('Nome do produto é obrigatórios');
-    }
+    const { name, price } = bodySchema.parse(req.body);
 
-    if (!price) {
-      throw new AppError('Preço do produto é obrigatórios');
-    }
+    // if (!name) {
+    //   throw new AppError('Nome do produto é obrigatórios');
+    // }
 
-    if (price < 0) {
-      throw new AppError('Preço do produto deve ser maior que zero.');
-    }
+    // if (!price) {
+    //   throw new AppError('Preço do produto é obrigatórios');
+    // }
+
+    // if (price < 0) {
+    //   throw new AppError('Preço do produto deve ser maior que zero.');
+    // }
 
     // throw new Error('Erro ao tentar criar um Produto'); //Simulação de Erro para aprendizado de tratamento de exceções
-
     // throw new AppError('Erro ao criar um Produto'); Simulação de erro com nossa classe de Erro.
 
-    res.status(201).json({ name, price, user_id });
+    res.status(201).json({ name, price, user_id: req.user_id });
   }
 }
 
