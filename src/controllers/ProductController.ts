@@ -12,8 +12,10 @@ class ProductController {
   create(req: Request, res: Response) {
     //Schema Zod
     const bodySchema = z.object({
-      name: z.string(),
-      price: z.number().nullish(), //Pode receber nulo ou undefined
+      name: z
+        .string({ error: 'Name is Required' })
+        .min(5, { error: 'Min lenght is five' }),
+      price: z.number({ error: 'Price is required' }),
     });
 
     const { name, price } = bodySchema.parse(req.body);
