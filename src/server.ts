@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { myMiddleware } from './middlewares/myMiddleware';
 import { routes } from './routes';
+import { AppError } from './utils/AppError';
 
 const app = express();
 app.use(express.json());
@@ -14,6 +15,10 @@ app.use(routes);
 
 //Tratamento de exceções
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+  if (error instanceof AppError) {
+    return res.status(error.statuscode).json({ message: error.message });
+  }
+
   res.status(500).json({ message: error.message });
 });
 
